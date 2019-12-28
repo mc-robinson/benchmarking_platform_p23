@@ -78,7 +78,9 @@ if __name__=='__main__':
     # optional arguments
     inpath = path
     if options.inpath:
-        inpath = path+options.inpath
+        # inpath = path+options.inpath
+        # change to absolute path, @Matt
+        inpath = options.inpath
         ana_func.checkPath(inpath)
     outpath = inpath
 

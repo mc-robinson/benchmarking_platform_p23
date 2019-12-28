@@ -83,11 +83,15 @@ if __name__=='__main__':
     # optional arguments
     inpath = path+'../validation/'
     if options.inpath:
-        inpath = path+options.inpath
+        #inpath = path+options.inpath
+        # changing to absolute paths, @Matt
+        inpath = options.inpath
         ana_func.checkPath(inpath)
     outpath = path
     if options.outpath:
-        outpath = path+options.outpath
+        #outpath = path+options.outpath
+        outpath = options.outpath
+        os.system("mkdir -p {}".format(outpath))
         ana_func.checkPath(outpath)
     tmppath = inpath
 

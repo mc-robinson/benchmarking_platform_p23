@@ -130,11 +130,16 @@ if __name__ == "__main__":
     # optional arguments
     inpath = parentpath + "scoring/"
     if options.inpath:
-        inpath = [path + i for i in options.inpath]
+        # inpath = [path + i for i in options.inpath]
+        # change to absolute paths, by @Matt 
+        inpath = options.inpath
         vfunc.checkPaths(inpath)
     outpath = path
     if options.outpath:
-        outpath = path + options.outpath
+        # outpath = path + options.outpath
+        # change to absolute paths
+        outpath = options.outpath
+        os.system("mkdir -p {}".format(outpath))
         vfunc.checkPaths([outpath])
     remove_fps = []
     if options.rm_file:

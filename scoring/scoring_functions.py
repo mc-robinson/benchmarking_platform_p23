@@ -19,7 +19,8 @@
 #       with the distribution.
 #     * Neither the name of Novartis Institutes for BioMedical Research Inc.
 #       nor the names of its contributors may be used to endorse or promote
-#       products derived from this software without specific prior written permission.
+#       products derived from this software without specific prior written
+#       permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 # "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -141,7 +142,7 @@ def printFPs(fps, fpname):
     print("-------------------------------")
     print("FUSION DONE FOR:")
     for fp in fps:
-        print(fp, end=' ')
+        print(fp, end=" ")
     print("")
     print("Name of fusion:", fpname)
     print("-------------------------------")

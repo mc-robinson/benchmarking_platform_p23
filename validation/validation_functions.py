@@ -41,6 +41,7 @@ from builtins import object
 import os
 from collections import defaultdict
 from rdkit.ML.Scoring import Scoring
+from sklearn.metrics import average_precision_score
 
 
 def checkPaths(filepaths):
@@ -64,6 +65,7 @@ def _readMethods(line):
 # dictionary for readMethods()
 read_dict = {}
 read_dict["AUC"] = lambda l: EvalMethod(l[0])
+read_dict["PRC"] = lambda l: PRCMethod(l[0])
 read_dict["EF"] = lambda l: EFMethod(l[0], _readMethods(l[1:]), 100)
 read_dict["BEDROC"] = lambda l: BEDROCMethod(l[0], _readMethods(l[1:]), 1)
 read_dict["RIE"] = lambda l: RIEMethod(l[0], _readMethods(l[1:]), 1)
@@ -164,6 +166,24 @@ class EvalMethod(object):
         for i, l in enumerate(tmp_list):
             # l[1] = fp, l[0] = score, i+1 = rank
             results[self.method_name][l[1]].append([l[0], i + 1])
+
+
+class PRCMethod(EvalMethod):
+    def calculate(self, scores, index):
+        # adapting rdkits AUC function for my purpose
+        numMol = len(scores)
+        if numMol == 0:
+            raise ValueError("score list is empty")
+
+        # loop over score list
+        y_true = [0] * numMol
+        for i in range(numMol):
+            if scores[i][index]:
+                y_true[i] = 1
+
+        y_scores = [x[0] for x in scores]
+
+        return average_precision_score(y_true, y_scores)
 
 
 class ParamEvalMethod(EvalMethod):

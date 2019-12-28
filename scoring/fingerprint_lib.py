@@ -33,8 +33,8 @@ nbits = 1024
 longbits = 16384
 
 # put dataframes here, should load on imports #
-cwd = os.getcwd()
-data_path = cwd + '/../../../data/'
+file_path = os.path.dirname(os.path.abspath(__file__))
+data_path = file_path + '/../../data/'
 # "/home/ubuntu/CAS_project/data/"
 
 chembl_smiles_df = pd.read_pickle(
@@ -150,5 +150,8 @@ def CalculateFP(fp_name, smiles):
         raise ValueError(
             "SMILES cannot be converted to a RDKit molecules:", smiles
         )
-
+    if fp_name not in fpdict:
+        raise ValueError(
+            "Fingerprint name cannot be found:", fp_name
+        )
     return fpdict[fp_name](m)

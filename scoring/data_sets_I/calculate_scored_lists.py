@@ -143,7 +143,10 @@ if __name__ == "__main__":
     outpath_set = False
     if options.outpath:
         outpath_set = True
-        outpath = path + options.outpath
+        # outpath = path + options.outpath
+        # changed to absolute , by @Matt
+        outpath = options.outpath
+        os.system("mkdir -p {}".format(outpath))
 
     # check for sensible input
     fp_names = scor.checkFPFile(fp_file)
