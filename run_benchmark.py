@@ -1,5 +1,5 @@
 # file added by Matt Robinson, matthew.robinson@postera.ai
-# This is the master script to run the benchmark
+# This is the master script to run a single benchmark
 #
 # Using this file avoids navigating the confusing file structure
 # All of the the file navigation is done from within this file,
