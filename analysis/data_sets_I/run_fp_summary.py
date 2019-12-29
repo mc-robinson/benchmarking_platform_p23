@@ -1,4 +1,5 @@
 from __future__ import print_function
+
 #
 # $Id$
 #
@@ -16,19 +17,19 @@ from __future__ import print_function
 #
 #  Copyright (c) 2013, Novartis Institutes for BioMedical Research Inc.
 #  All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are
-# met: 
+# met:
 #
-#     * Redistributions of source code must retain the above copyright 
+#     * Redistributions of source code must retain the above copyright
 #       notice, this list of conditions and the following disclaimer.
 #     * Redistributions in binary form must reproduce the above
-#       copyright notice, this list of conditions and the following 
-#       disclaimer in the documentation and/or other materials provided 
+#       copyright notice, this list of conditions and the following
+#       disclaimer in the documentation and/or other materials provided
 #       with the distribution.
-#     * Neither the name of Novartis Institutes for BioMedical Research Inc. 
-#       nor the names of its contributors may be used to endorse or promote 
+#     * Neither the name of Novartis Institutes for BioMedical Research Inc.
+#       nor the names of its contributors may be used to endorse or promote
 #       products derived from this software without specific prior written permission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -45,6 +46,7 @@ from __future__ import print_function
 #
 
 from future import standard_library
+
 standard_library.install_aliases()
 from builtins import str
 from builtins import range
@@ -53,24 +55,30 @@ from collections import defaultdict
 from optparse import OptionParser
 
 # import configuration file with global variables
-sys.path.insert(0, os.getcwd()+'/../../')
+sys.path.insert(0, os.getcwd() + "/../../")
 import configuration_file_I as conf
 
 # import analysis functions
-sys.path.insert(0, os.getcwd()+'/../')
+sys.path.insert(0, os.getcwd() + "/../")
 import analysis_functions as ana_func
 
 # paths
 cwd = os.getcwd()
-path = cwd+'/'
+path = cwd + "/"
 
 # prepare command-line option parser
 usage = "usage: %prog [options] arg"
 parser = OptionParser(usage)
-parser.add_option("-i", "--inpath", dest="inpath", metavar="PATH", help="relative input PATH (default: pwd)")
+parser.add_option(
+    "-i",
+    "--inpath",
+    dest="inpath",
+    metavar="PATH",
+    help="relative input PATH (default: pwd)",
+)
 
 ######################## MAIN PART ###########################
-if __name__=='__main__':
+if __name__ == "__main__":
 
     # read in command line options
     (options, args) = parser.parse_args()
@@ -90,14 +98,16 @@ if __name__=='__main__':
     for dataset in list(conf.set_data.keys()):
         print(dataset)
         # input path
-        inpath = outpath+'/'+dataset
+        inpath = outpath + "/" + dataset
 
         # loop over targets
-        for target in conf.set_data[dataset]['ids']:
+        for target in conf.set_data[dataset]["ids"]:
             print(target)
 
             # load results
-            results, fpkeys = ana_func.readFile(open(inpath+'/target_'+str(target)+'.txt', 'r'))
+            results, fpkeys = ana_func.readFile(
+                open(inpath + "/target_" + str(target) + ".txt", "r")
+            )
             methodkeys = list(results.keys())
 
             # if summary is not yet set: prepare it
@@ -107,16 +117,19 @@ if __name__=='__main__':
 
             # fill results into summary dictionary
             for m in methodkeys:
-                for i,k in enumerate(fpkeys):
-                    j = i*2
-                    summary[m][k].append([target, results[m][j], results[m][j+1]])
+                for i, k in enumerate(fpkeys):
+                    j = i * 2
+                    summary[m][k].append(
+                        [target, results[m][j], results[m][j + 1]]
+                    )
 
     # write out
-    outdir = outpath+'/fp_summary/'
-    if not os.path.exists(outdir): os.makedirs(outdir)
+    outdir = outpath + "/fp_summary/"
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
     # loop over fingerprints
     for k in fpkeys:
-        outfile = open(outdir+'summary_'+k+'.txt', 'w')
+        outfile = open(outdir + "summary_" + k + ".txt", "w")
         ana_func.writeHeader(outfile, methodkeys)
         # loop over targets
         for t in range(len(summary[methodkeys[0]][k])):
@@ -126,5 +139,5 @@ if __name__=='__main__':
             for m in methodkeys:
                 element = summary[m][k][t]
                 outfile.write("%.3f %.3f " % (element[1], element[2]))
-            outfile.write("\r\n") # for Windows
+            outfile.write("\r\n")  # for Windows
         outfile.close()

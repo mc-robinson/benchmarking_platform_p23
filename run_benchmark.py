@@ -122,6 +122,7 @@ if __name__ == "__main__":
             analysis_path = os.path.join(
                 os.getcwd(), "analysis", "data_sets_I"
             )
+            dataset = "I"
         elif options.dataset == "II":
             import configuration_file_II as conf
 
@@ -132,6 +133,7 @@ if __name__ == "__main__":
             analysis_path = os.path.join(
                 os.getcwd(), "analysis", "data_sets_II"
             )
+            dataset = "II"
         elif options.dataset == "filtered":
             import configuration_file_I_filtered as conf
 
@@ -142,6 +144,7 @@ if __name__ == "__main__":
             analysis_path = os.path.join(
                 os.getcwd(), "analysis", "data_sets_I"
             )
+            dataset = "filtered"
         else:
             raise RuntimeError("the dataset option was not recognized")
     else:
@@ -155,6 +158,7 @@ if __name__ == "__main__":
             analysis_path = os.path.join(
                 os.getcwd(), "analysis", "data_sets_I"
             )
+            dataset = "I"
         elif DEFAULT_DATASET == "II":
             import configuration_file_II as conf
 
@@ -165,13 +169,14 @@ if __name__ == "__main__":
             analysis_path = os.path.join(
                 os.getcwd(), "analysis", "data_sets_II"
             )
+            dataset = "II"
 
     DEFAULT_NUM_QUERY_MOLS = 10
     if options.num:
         num_query_mols = options.num
+        scor.checkQueryMols(num_query_mols, conf.list_num_query_mols)
     else:
         num_query_mols = DEFAULT_NUM_QUERY_MOLS
-    scor.checkQueryMols(num_query_mols, conf.list_num_query_mols)
 
     DEFAULT_FP = "ecfp6"
     if options.fp:
@@ -221,22 +226,37 @@ if __name__ == "__main__":
         # need to change dir
         os.system(
             "python calculate_scored_lists_{ml_method}.py -n {ml_num} -f {ml_fp} -s {ml_sim} -o {ml_outpath}".format(
+                ml_method=method,
                 ml_num=num_query_mols,
                 ml_fp=fp,
                 ml_sim="Tanimoto",
-                ml_outpath=os.path.join(outdir, MODE, "scoring", method, fp),
+                ml_outpath=os.path.join(
+                    outdir, dataset, MODE, "scoring", method, fp
+                ),
             )
         )
     elif MODE == "SIM":
         with open(os.path.join(scoring_path, "fp_file.txt"), "w") as f:
             f.write(fp)
-        os.system(
-            "python calculate_scored_lists.py -n {sim_num} -f ./fp_file.txt -s {sim_method} -o {sim_outpath}".format(
-                sim_num=num_query_mols,
-                sim_method=method,
-                sim_outpath=os.path.join(outdir, MODE, "scoring", method, fp),
+        if dataset == "II":
+            os.system(
+                "python calculate_scored_lists.py -f ./fp_file.txt -s {sim_method} -o {sim_outpath}".format(
+                    sim_method=method,
+                    sim_outpath=os.path.join(
+                        outdir, dataset, MODE, "scoring", method, fp
+                    ),
+                )
             )
-        )
+        else:
+            os.system(
+                "python calculate_scored_lists.py -n {sim_num} -f ./fp_file.txt -s {sim_method} -o {sim_outpath}".format(
+                    sim_num=num_query_mols,
+                    sim_method=method,
+                    sim_outpath=os.path.join(
+                        outdir, dataset, MODE, "scoring", method, fp
+                    ),
+                )
+            )
         os.system("rm fp_file.txt")
 
     # then validate
@@ -249,23 +269,22 @@ if __name__ == "__main__":
             f.write("PRC")
     os.system(
         "python calculate_validation_methods.py -m methods_file.txt -i {val_input_path} -o {val_output_path}".format(
-            val_input_path=os.path.join(outdir, MODE, "scoring", method, fp),
+            val_input_path=os.path.join(outdir, dataset, MODE, "scoring", method, fp),
             val_output_path=os.path.join(
-                outdir, MODE, "validation", method, fp
+                outdir, dataset, MODE, "validation", method, fp
             ),
         )
     )
-
 
     # then analayze
     os.chdir(analysis_path)
     os.system(
         "python run_analysis.py -i {anal_input_path} -o {anal_output_path}".format(
             anal_input_path=os.path.join(
-                outdir, MODE, "validation", method, fp
+                outdir, dataset, MODE, "validation", method, fp
             ),
             anal_output_path=os.path.join(
-                outdir, MODE, "analysis", method, fp
+                outdir, dataset, MODE, "analysis", method, fp
             ),
         )
     )
@@ -276,7 +295,7 @@ if __name__ == "__main__":
     os.system(
         "python run_fp_summary.py -i {fp_anal_input_path}".format(
             fp_anal_input_path=os.path.join(
-                outdir, MODE, "analysis", method, fp
+                outdir, dataset, MODE, "analysis", method, fp
             )
         )
     )
