@@ -20,6 +20,7 @@ if not os.path.exists(plots_dir):
     os.system("mkdir {}".format(os.path.join(plots_dir, "METHODS")))
     os.system("mkdir {}".format(os.path.join(plots_dir, "FPS")))
 
+files_to_delete = []
 for d in ["I"]:  # ["I", "II"]:
     ML_file_paths = []
     for root, dirs, files in os.walk(
@@ -28,6 +29,8 @@ for d in ["I"]:  # ["I", "II"]:
         for file in files:
             if "summary" in file and file.endswith(".txt"):
                 ML_file_paths.append(os.path.join(root, file))
+            elif "summary" not in file and file.endswith(".txt"):
+                files_to_delete.append(os.path.join(root, file))
 
     SIM_file_paths = []
     for root, dirs, files in os.walk(
@@ -36,6 +39,8 @@ for d in ["I"]:  # ["I", "II"]:
         for file in files:
             if "summary" in file and file.endswith(".txt"):
                 SIM_file_paths.append(os.path.join(root, file))
+            elif "summary" not in file and file.endswith(".txt"):
+                files_to_delete.append(os.path.join(root, file))
 
     overall_dict = {}
     for fn in ML_file_paths + SIM_file_paths:
@@ -57,8 +62,6 @@ for d in ["I"]:  # ["I", "II"]:
         for metric in ["AUC", "PRC"]:
             plt.figure(figsize=(16, 12))
             for fp in fps:
-                if fp in "hashap":
-                    continue
                 plt.errorbar(
                     df["#"],
                     overall_df[(method, metric, fp)],
@@ -83,8 +86,6 @@ for d in ["I"]:  # ["I", "II"]:
     methods = np.unique([c[0] for c in overall_df.columns])
     fps = np.unique([c[-1] for c in overall_df.columns])
     for fp in fps:
-        if fp in "hashap":
-            continue
         for metric in ["AUC", "PRC"]:
             plt.figure(figsize=(16, 12))
             for method in methods:
@@ -104,4 +105,7 @@ for d in ["I"]:  # ["I", "II"]:
             plt.savefig(
                 os.path.join(plots_dir, "FPS", "{}_{}.png".format(fp, metric))
             )
+
+for f in files_to_delete:
+    os.system("rm {}".format(f))
 
