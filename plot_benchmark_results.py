@@ -57,7 +57,7 @@ for d in ["I"]:  # ["I", "II"]:
         for metric in ["AUC", "PRC"]:
             plt.figure(figsize=(16, 12))
             for fp in fps:
-                if fp in "avalon":
+                if fp in "hashap":
                     continue
                 plt.errorbar(
                     df["#"],
@@ -83,7 +83,7 @@ for d in ["I"]:  # ["I", "II"]:
     methods = np.unique([c[0] for c in overall_df.columns])
     fps = np.unique([c[-1] for c in overall_df.columns])
     for fp in fps:
-        if fp in "avalon":
+        if fp in "hashap":
             continue
         for metric in ["AUC", "PRC"]:
             plt.figure(figsize=(16, 12))
