@@ -74,13 +74,51 @@ for d in ["I"]:  # ["I", "II"]:
             plt.xlabel("DATASET")
             plt.ylabel(metric + " (w/ SD error bars)")
             plt.title(
-                "Comparing all fingerprints with the {} method".format(fp)
+                "Comparing all fingerprints with the {} method".format(method)
             )
             plt.savefig(
                 os.path.join(
                     plots_dir, "METHODS", "{}_{}.png".format(method, metric)
                 )
             )
+
+            compare_df = overall_df[(method, metric)]
+            compare_arrs = []
+            for i in range(compare_df.shape[0]):
+                compare_arrs.append(
+                    (
+                        (
+                            np.sign(
+                                np.array(compare_df.iloc[i]).reshape(-1, 1)
+                                - np.array(compare_df.iloc[i]).reshape(1, -1)
+                            )
+                        )
+                        > 0
+                    ).astype(int)
+                )
+            sign_test_array = sum(compare_arrs) / len(compare_arrs)
+            sign_test_df = pd.DataFrame(
+                index=compare_df.columns,
+                columns=compare_df.columns,
+                data=sign_test_array,
+            )
+            # sign_test_df.style.background_gradient(cmap="bwr_r")
+            sign_test_df.to_html(
+                os.path.join(
+                    plots_dir, "METHODS", "{}_{}.html".format(method, metric)
+                )
+            )
+
+            # html = sign_test_df.to_html()
+            # with open(
+            #     os.path.join(
+            #         plots_dir, "METHODS", "{}_{}.html".format(method, metric)
+            #     ),
+            #     "w",
+            #     encoding="utf-8",
+            # ) as file:
+            #     file.writelines('<meta charset="UTF-8">\n')
+            #     file.write(html)
 
     # now do it for each method on each fingerprint
     methods = np.unique([c[0] for c in overall_df.columns])
@@ -108,4 +146,6 @@ for d in ["I"]:  # ["I", "II"]:
 
 for f in files_to_delete:
     os.system("rm {}".format(f))
+
+overall_df.to_pickle("results_df.pkl")
 
