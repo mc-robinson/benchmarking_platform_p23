@@ -32,10 +32,16 @@ import numpy as np
 nbits = 1024
 longbits = 16384
 
+# TO TEST CUSTOM FP
+# Please see the code below with the example of the `cas` fp
+# The fingerprints for the compounds should be put in the 
+# `/../../data/` folder. The code below also needs to modified 
+# by both adding a function to creat the fingerprint and 
+# a dictionary entry to fp_dict
+
 # put dataframes here, should load on imports #
 file_path = os.path.dirname(os.path.abspath(__file__))
 data_path = file_path + '/../../data/'
-# "/home/ubuntu/CAS_project/data/"
 
 chembl_smiles_df = pd.read_pickle(
     os.path.join(data_path, "chembl_smiles_df_2.pkl")
