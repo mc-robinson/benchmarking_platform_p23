@@ -33,7 +33,7 @@ nbits = 1024
 longbits = 16384
 
 # TO TEST CUSTOM FP
-# Please see the code below with the example of the `cas` fp
+# Please see the code below with the example of the cas fingerprint
 # The fingerprints for the compounds should be put in the 
 # `/../../data/` folder. The code below also needs to modified 
 # by both adding a function to creat the fingerprint and 
