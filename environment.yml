@@ -9,7 +9,4 @@ dependencies:
   - matplotlib
   - scikit-learn
   - rdkit
-  - jupyter
-  - nb_conda
-prefix: /home/ubuntu/anaconda3/envs/cas-env
 
