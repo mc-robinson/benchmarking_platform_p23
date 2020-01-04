@@ -1,5 +1,5 @@
 # Fingerprint Benchmarking Algorithm
-    - Matt Robinson, matthew.robinson@postera.ai
+- Matt Robinson, matthew.robinson@postera.ai
 
 ## Background ##
 
@@ -11,7 +11,7 @@ URL: http://www.jcheminf.com/content/5/1/26
 
 The dataset consists of 88 targets from MUV, DUD, and ChEMBL. 
 
-The original code is 
+The original code can be found at https://github.com/rdkit/benchmarking_platform/blob/master/analysis/analysis_functions.py
 
 ## Updating the platform ##
 
@@ -30,7 +30,7 @@ This environment can be installed using
 #### Parameters
 To modify the specific parameters of the benchmark, please visit the `BENCHMARK_CONFIG.md` file and change the desired parameters.
 
-After this configuration file is appropriately modified, run the benchmark using the `run_benchmark.py` script. Finally, an automatically generated markdown report of the reulsts can be produced using produce report.py.
+After this configuration file is appropriately modified, run the benchmark using the `run_benchmark.py` script. Finally, an automatically generated markdown report of the results can be produced using produce report.py.
 
 An overview of these steps is below:
 1. Modify BENCHMARK_CONFIG.md as desired
@@ -49,7 +49,7 @@ The original benchmarking code was distributed with the following license.s
 
 Copyright (c) 2013, Novartis Institutes for BioMedical Research Inc.
 All rights reserved.
- 
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are
 met: 
