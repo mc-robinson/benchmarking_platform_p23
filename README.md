@@ -21,6 +21,8 @@ The original code is contained in he subdirectory `benchmarking_platform_p3`. Mo
 
 ## Running the code
 
+The easiest way to get started is to clone this GitHub repository. 
+
 #### Dependencies
 All code should be run in the provided [conda environment](https://docs.conda.io/projects/conda/en/latest/index.html)
 
@@ -33,6 +35,7 @@ To modify the specific parameters of the benchmark, please visit the `BENCHMARK_
 After this configuration file is appropriately modified, run the benchmark using the `run_benchmark.py` script. Finally, an automatically generated markdown report of the results can be produced using produce report.py.
 
 An overview of these steps is below:
+0. Make sure the cas-env conda environment is active
 1. Modify BENCHMARK_CONFIG.md as desired
 2. `python run benchmark.py`
 3. `python produce_report.py`
