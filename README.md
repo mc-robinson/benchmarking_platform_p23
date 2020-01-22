@@ -21,7 +21,7 @@ The original code is contained in the subdirectory `benchmarking_platform_p3`. M
 
 ## Running the code
 
-The easiest way to get started is to clone this GitHub repository. 
+The easiest way to get started is to clone this GitHub repository. Please then go to the `data/README.md` file for instructions on installing the data.
 
 #### Dependencies
 All code should be run in the provided [conda environment](https://docs.conda.io/projects/conda/en/latest/index.html)
@@ -35,10 +35,12 @@ To modify the specific parameters of the benchmark, please visit the `BENCHMARK_
 After this configuration file is appropriately modified, run the benchmark using the `run_benchmarks.py` script. Finally, an automatically generated markdown report of the results can be produced using produce report.py.
 
 An overview of these steps is below:
-0. Make sure the cas-env conda environment is active
-1. Modify `BENCHMARK_CONFIG.md` as desired
-2. `python run_benchmarks.py`
-3. `python produce_report.py`
+
+0. Follow insructions to download data found in `data/README.md`
+1. Make sure the cas-env conda environment is active
+2. Modify `BENCHMARK_CONFIG.md` as desired
+3. `python run_benchmarks.py`
+4. `python produce_report.py`
 
 The generated plots are found in `benchmark_results_plots` and the report is located at `benchmark_report.md`.
 
