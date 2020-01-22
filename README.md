@@ -17,7 +17,7 @@ The original code can be found at https://github.com/rdkit/benchmarking_platform
 
 The original platform was written in python 2, and was found to be somehwhat difficult to run. Consequently, we have updated the code to be both python 2 and 3 compatible, for ease of use. Futherrmore, we have changed the structure of the code to facilitate benchmarking without the need for navigating the complicated file structure. 
 
-The original code is contained in he subdirectory `benchmarking_platform_p3`. Most of the code is unchanged excepting changes to allow for python 3 usage. However, several files have been changed more significantly in order to simplify usage. For example, most scripts have been changed to accept abolute -- instead of relative paths -- as parameters.
+The original code is contained in the subdirectory `benchmarking_platform_p3`. Most of the code is unchanged excepting changes to allow for python 3 usage. However, several files have been changed more significantly in order to simplify usage. For example, most scripts have been changed to accept abolute -- instead of relative paths -- as parameters.
 
 ## Running the code
 
@@ -32,12 +32,12 @@ This environment can be installed using
 #### Parameters
 To modify the specific parameters of the benchmark, please visit the `BENCHMARK_CONFIG.md` file and change the desired parameters.
 
-After this configuration file is appropriately modified, run the benchmark using the `run_benchmark.py` script. Finally, an automatically generated markdown report of the results can be produced using produce report.py.
+After this configuration file is appropriately modified, run the benchmark using the `run_benchmarks.py` script. Finally, an automatically generated markdown report of the results can be produced using produce report.py.
 
 An overview of these steps is below:
 0. Make sure the cas-env conda environment is active
-1. Modify BENCHMARK_CONFIG.md as desired
-2. `python run benchmark.py`
+1. Modify `BENCHMARK_CONFIG.md` as desired
+2. `python run_benchmarks.py`
 3. `python produce_report.py`
 
 The generated plots are found in `benchmark_results_plots` and the report is located at `benchmark_report.md`.

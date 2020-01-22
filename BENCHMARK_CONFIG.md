@@ -4,13 +4,13 @@ Simply edit the code-blocks (surrouned with ``` characters) in order to configur
 
 ## Datasets
 
-Options for datasets are datasets I and/or II
+Options for datasets are datasets I
 
 ```
 DATASETS = [I]
 ```
 
-The details of each dataset are below:
+The details of the dataset are below:
 
 #### Dataset I
 Dataset I was originally described in 
@@ -20,15 +20,6 @@ DOI: 10.1186/1758-2946-5-26,
 URL: http://www.jcheminf.com/content/5/1/26
 
 The dataset consists of 88 targets from MUV, DUD, and ChEMBL. 
-
-#### Dataset II
-Dataset II was originally described in 
-
-S. Riniker, N. Fechner, G. Landrum, J. Chem. Inf. Model., 53, 2829, (2013),
-DOI: 10.1021/ci400466r,
-URL: http://pubs.acs.org/doi/abs/10.1021/ci400466r
-
-This dataset consists of 37 targets from ChEMBL designed for ...
 
 ## Fingerprints
 Options for fingerprints are any subset of:
@@ -48,7 +39,7 @@ Options for fingerprints are any subset of:
 - rdk5, rdk6, rdk7 (RDKit path-based fingerprint with path-legnth 5/6/7)
 - cas (CAS 7851 bit fingerprint. Note that cas data files are needed in `/data` to run cas)
 ```
-FINGERPRINTS = [maccs]
+FINGERPRINTS = [rdk6, cas]
 ```
 
 ## Methods
@@ -81,6 +72,6 @@ In each assay, randomly selected subsets of the active and inactive compounds ar
 
 One decision is the number of query active molecules to use for training. Options are 5,10, or 20 active compounds.
 ```
-NUM_QUERY_MOLS = 5
+NUM_QUERY_MOLS = 10
 ```
 

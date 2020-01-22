@@ -30,6 +30,7 @@ import numpy as np
 # CAS bitvector
 
 nbits = 1024
+n_cas_bits = 7851
 longbits = 16384
 
 # TO TEST CUSTOM FP
@@ -44,13 +45,13 @@ file_path = os.path.dirname(os.path.abspath(__file__))
 data_path = file_path + '/../../data/'
 
 chembl_smiles_df = pd.read_pickle(
-    os.path.join(data_path, "chembl_smiles_df_2.pkl")
+    os.path.join(data_path, "chembl_smiles_df.pkl")
 )
-dud_smiles_df = pd.read_pickle(os.path.join(data_path, "dud_smiles_df_2.pkl"))
+dud_smiles_df = pd.read_pickle(os.path.join(data_path, "dud_smiles_df.pkl"))
 dud_missing_smiles_df = pd.read_pickle(
-    os.path.join(data_path, "dud_missing_smiles_df_2.pkl")
+    os.path.join(data_path, "dud_missing_smiles_df.pkl")
 )
-muv_smiles_df = pd.read_pickle(os.path.join(data_path, "muv_smiles_df_2.pkl"))
+muv_smiles_df = pd.read_pickle(os.path.join(data_path, "muv_smiles_df.pkl"))
 
 total_df = pd.concat(
     [chembl_smiles_df, muv_smiles_df, dud_smiles_df, dud_missing_smiles_df]
@@ -88,6 +89,9 @@ fpdict["ecfp4"] = lambda m: AllChem.GetMorganFingerprintAsBitVect(
 )
 fpdict["ecfp6"] = lambda m: AllChem.GetMorganFingerprintAsBitVect(
     m, 3, nBits=nbits
+)
+fpdict["ecfp6_cas_length"] = lambda m: AllChem.GetMorganFingerprintAsBitVect(
+    m, 3, nBits=n_cas_bits
 )
 fpdict["ecfc0"] = lambda m: AllChem.GetMorganFingerprint(m, 0)
 fpdict["ecfc2"] = lambda m: AllChem.GetMorganFingerprint(m, 1)
@@ -132,11 +136,22 @@ fpdict[
     m, nBits=nbits
 )
 fpdict[
+    "hashap_cas_length"
+] = lambda m: rdMolDescriptors.GetHashedAtomPairFingerprintAsBitVect(
+    m, nBits=n_cas_bits
+)
+fpdict[
     "hashtt"
 ] = lambda m: rdMolDescriptors.GetHashedTopologicalTorsionFingerprintAsBitVect(
     m, nBits=nbits
 )
+fpdict[
+    "hashtt_cas_length"
+] = lambda m: rdMolDescriptors.GetHashedTopologicalTorsionFingerprintAsBitVect(
+    m, nBits=n_cas_bits
+)
 fpdict["avalon"] = lambda m: fpAvalon.GetAvalonFP(m, nbits)
+fpdict["avalon_cas_length"] = lambda m: fpAvalon.GetAvalonFP(m, n_cas_bits)
 fpdict["laval"] = lambda m: fpAvalon.GetAvalonFP(m, longbits)
 fpdict["rdk5"] = lambda m: Chem.RDKFingerprint(
     m, maxPath=5, fpSize=nbits, nBitsPerHash=2
@@ -144,11 +159,13 @@ fpdict["rdk5"] = lambda m: Chem.RDKFingerprint(
 fpdict["rdk6"] = lambda m: Chem.RDKFingerprint(
     m, maxPath=6, fpSize=nbits, nBitsPerHash=2
 )
+fpdict["rdk6_cas_length"] = lambda m: Chem.RDKFingerprint(
+    m, maxPath=6, fpSize=n_cas_bits, nBitsPerHash=2
+)
 fpdict["rdk7"] = lambda m: Chem.RDKFingerprint(
     m, maxPath=7, fpSize=nbits, nBitsPerHash=2
 )
 fpdict["cas"] = lambda m: create_cas_fp(m)
-
 
 def CalculateFP(fp_name, smiles):
     m = Chem.MolFromSmiles(smiles)

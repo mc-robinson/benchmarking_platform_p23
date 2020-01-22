@@ -71,7 +71,7 @@ if __name__ == "__main__":
         md_lines.extend(data)
 
     md_lines.append("## Comparing all methods on a given fingerprint\n")
-    fps = np.unique([str(x).split("/")[-1].split("_")[0] for x in FPS_paths])
+    fps = np.unique(['_'.join(str(x).split("/")[-1].split("_")[0:-1]) for x in FPS_paths])
     for fp in fps:
         md_lines.append("### Examining {}\n".format(fp))
         md_lines.append("#### AUC\n")
