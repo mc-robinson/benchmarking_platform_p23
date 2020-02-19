@@ -27,6 +27,34 @@ compounds and query_lists is read in.
 
 The directory compounds contains lists of compounds for 118 targets
 from three public data sources: MUV, DUD and ChEMBL. The compound
+lists contain the external ID, the internal ID and the SMILES of
+each compound.
+
+There are three subsets of targets available:
+
+subset I: 
+  88 targets from MUV, DUD & ChEMBL described in J. Cheminf., 5, 26 (2013)
+  
+subset I filtered: 
+  69 targets from MUV, DUD & ChEMBL filtered for difficulty
+  described in JCIM (2013), online
+  
+subset II:
+  37 targets from ChEMBL designed for a second VS use case
+  described in JCIM (2013), online
+
+The directory query_lists contains training lists for each target
+with the indices of randomly selected active and inactive molecules.
+Training lists with 5, 10 or 20 active molecules are available.
+The number of training decoys is 20 % of the decoys for subsets I
+and 10 % for subset II.
+
+The scripts are written in Python and use the open-source
+cheminformatics library RDKit (www.rdkit.org) and
+machine-learning library scikit-learn (www.scikit-learn.org).
+
+Running a script with the option [--help] gives a description of the 
+required and optional input parameters of the script.
 
 #### NOTE ABOUT PLOTS ####
 
@@ -79,32 +107,4 @@ methods = np.unique([c[0] for c in overall_df.columns])
                     plots_dir, "METHODS", "{}_{}.png".format(method, metric)
                 )
             )
-lists contain the external ID, the internal ID and the SMILES of
-each compound.
-
-There are three subsets of targets available:
-
-subset I: 
-  88 targets from MUV, DUD & ChEMBL described in J. Cheminf., 5, 26 (2013)
-  
-subset I filtered: 
-  69 targets from MUV, DUD & ChEMBL filtered for difficulty
-  described in JCIM (2013), online
-  
-subset II:
-  37 targets from ChEMBL designed for a second VS use case
-  described in JCIM (2013), online
-
-The directory query_lists contains training lists for each target
-with the indices of randomly selected active and inactive molecules.
-Training lists with 5, 10 or 20 active molecules are available.
-The number of training decoys is 20 % of the decoys for subsets I
-and 10 % for subset II.
-
-The scripts are written in Python and use the open-source
-cheminformatics library RDKit (www.rdkit.org) and
-machine-learning library scikit-learn (www.scikit-learn.org).
-
-Running a script with the option [--help] gives a description of the 
-required and optional input parameters of the script.
 ```
