@@ -27,6 +27,58 @@ compounds and query_lists is read in.
 
 The directory compounds contains lists of compounds for 118 targets
 from three public data sources: MUV, DUD and ChEMBL. The compound
+
+#### NOTE ABOUT PLOTS ####
+
+If you would like to create the black and gray plots that appear in the manuscript,
+please use the following code in `plot_benchmark_results.py`
+
+```
+methods = np.unique([c[0] for c in overall_df.columns])
+    fps = np.unique([c[-1] for c in overall_df.columns])
+    for method in methods:
+        for metric in ["AUC", "PRC"]:
+            plt.figure(figsize=(16, 12))
+            for fp in fps:
+                # new option as per Todd's request
+                if fp == 'cas':
+                    # line_color = 'black'
+                    continue
+                else:
+                    line_color = 'lightgrey'
+                plt.errorbar(
+                    df["#"],
+                    overall_df[(method, metric, fp)],
+                    fmt="-o",
+                    yerr=overall_df[(method, (metric + "_std"), fp)],
+                    label=fp,
+                    color=line_color,
+                    markerfacecolor=line_color,
+                    zorder=-32
+                )
+            # now plot cas on top 
+            plt.errorbar(
+                    df["#"],
+                    overall_df[(method, metric, 'cas')],
+                    fmt="-o",
+                    yerr=overall_df[(method, (metric + "_std"), 'cas')],
+                    label='cas',
+                    color='black',
+                    markerfacecolor='black',
+                    zorder=3
+                )
+            plt.xticks(rotation=90)
+            plt.legend()
+            plt.xlabel("DATASET")
+            plt.ylabel(metric + " (w/ SD error bars)")
+            plt.title(
+                "Comparing all fingerprints with the {} method".format(method)
+            )
+            plt.savefig(
+                os.path.join(
+                    plots_dir, "METHODS", "{}_{}.png".format(method, metric)
+                )
+            )
 lists contain the external ID, the internal ID and the SMILES of
 each compound.
 
@@ -55,3 +107,4 @@ machine-learning library scikit-learn (www.scikit-learn.org).
 
 Running a script with the option [--help] gives a description of the 
 required and optional input parameters of the script.
+```
